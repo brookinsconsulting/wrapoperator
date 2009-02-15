@@ -1,0 +1,72 @@
+=== Description
+
+Essentially, this is a simple wrapper operator to directly call any system and user-defined functions in template.
+
+It does not concern me much if doing so is good idea or 'pfui' as someone said on the #ezpublish channel.  Undoubtedly
+care has to be taken to avoid security and caching problems, etc.  But it makes life a lot easier for me because i
+dont have to write unexisting text processing functions in template language and dont need to set up separate
+extension to every small operator i need.  It's a swiss army knife - you can cut your hand but noone is forcing you to :)
+
+=== Usage
+
+There are two operators:
+wrap_php_func(string functionname, array parameters [, boolean return_output])
+wrap_user_func(string functionname, array parameters [, boolean return_output])
+
+Parameters:
+    functionname : name of called function (ex. ereg_replace)
+    parameters : array of parameters to pass to function (ex. array('sour', 'sweet', 'Grapes are sour.') )
+    return_output : If set true(), the OUTPUT from the called function is returned, not its return value.
+
+Returns:
+    The return value of function you call.  If return_output is set true(), the OUTPUT from the function is returned
+    instead.  This can be used to embed external applications in your template.
+    
+Security:
+    Function names callable through operator must be explicitly listed in wrap_operator.ini , anything else is not
+    allowed.  There is [PHPFunctions] section for enabling calling system functions through wrap_php_func and
+    [UserFunctions] for userdefined functions.
+    
+Calling internal php functions:
+    Example: you want to use ereg_replace php function.
+    1. add line to [PHPFunctions] section in wrap_operator.ini: "PermittedFunctionList[]=ereg_replace"
+    2. call it in your template: {wrap_php_func('ereg_replace', array('sour', 'sweet', 'Grapes are sour.'))}
+    
+Calling user defined functions:
+    wrap_user_func expects each user funtion to be defined in separate file:
+    extension/wrap_operator/userfunctions/{user function name}.php
+    It uses include_once to read it in, so be sure to use <?php   ?> around code.
+    
+    Example: suppose you want to use following silly function in template:
+    <?php
+    function silly_thing($who)
+    {
+        return($who . ' is silly!');
+    }
+    ?>
+    
+    To do this you:
+    1. save the function in file extension/wrap_operator/userfunctions/silly_thing.php
+    2. add line to [UserFunctions] section in wrap_operator.ini: "PermittedFunctionList[]=silly_thing"
+    3. call it in your template: {wrap_user_func('silly_thing', array('This function'))}
+
+    Having ability to call your php functions like this is a very nice feature i think, kind of simplified plugin system for
+    operators.  No need to write whole extension for some simple function.  Also functions you have written can be easily
+    shared by pasting them to forum and copying from there.  So share yours :)
+
+=== Problems and debugging
+    Turn on template debugging to see data that is passed to and from function and error messages.  Look at examples.
+    Look at code.  Scratch head.  Log on to #ezpublish to bug author.
+    
+=== Thoughts
+
+I am not sure exactly what datatypes can be passed to functions from template like this.  Should work ok for
+integers, strings and boolean i think.  If you are more informed about ez internals, please comment.
+
+Using wrap_user_func with return_output=true() should enable easy embedding of existing php applications in
+templates, called through the user function.  I have tested just simple test case but maybe someone can think of something
+more useful and post specific instructions..
+
+Comments and suggestions for improvement are very welcome.  Either post on forum or talk to zurgutt on #ezpublish irc
+channel on irc.freenode.net.
+
