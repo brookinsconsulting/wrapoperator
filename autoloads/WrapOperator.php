@@ -76,7 +76,7 @@ class WrapOperator
             case 'wrap_php_func':
             {
                 // Check from ini if we are allowed to call given function.
-                $ini =& eZINI::instance('wrap_operator.ini');
+                $ini = eZINI::instance('wrap_operator.ini');
 
                 $permittedFunctionList = $ini->variable( 'PHPFunctions', 'PermittedFunctionList' );
 
