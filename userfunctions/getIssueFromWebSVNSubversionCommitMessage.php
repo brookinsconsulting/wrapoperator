@@ -1,7 +1,7 @@
 <?php
 
     // Quick and dirty way to get the issue number from a commit message
-    function getIssueFromPubSVNCommitMessage( $data )
+    function getIssueFromWebSVNSubversionCommitMessage( $data )
     {
         //given string $data, will return the first $issue string in that string
 	$ret = false;
