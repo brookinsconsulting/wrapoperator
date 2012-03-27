@@ -76,7 +76,7 @@ class WrapOperator
             case 'wrap_php_func':
             {
                 // Check from ini if we are allowed to call given function.
-                $ini = eZINI::instance('wrap_operator.ini');
+                $ini = eZINI::instance('wrapoperator.ini');
 
                 $permittedFunctionList = $ini->variable( 'PHPFunctions', 'PermittedFunctionList' );
 
@@ -127,7 +127,7 @@ class WrapOperator
             case 'wrap_user_func':
             {
                 // Check from ini if we are allowed to call given function.
-                $ini = eZINI::instance('wrap_operator.ini');
+                $ini = eZINI::instance('wrapoperator.ini');
 
                 $permittedFunctionList = $ini->variable( 'UserFunctions', 'PermittedFunctionList' );
 
@@ -143,7 +143,7 @@ class WrapOperator
 
                 // Function is permitted, lets include the file with it.
                 // For easy management user functions are in separate files named by function name.
-                include_once('extension/wrap_operator/userfunctions/' . $callbackFunction . '.php');
+                include_once('extension/wrapoperator/userfunctions/' . $callbackFunction . '.php');
 
                 // Check if given function is indeed visible and callable for php.
                 if( !is_callable($callbackFunction) )
