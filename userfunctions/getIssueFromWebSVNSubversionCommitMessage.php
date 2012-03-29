@@ -12,7 +12,7 @@
 	    $match = $split[1];
     	    $issue = substr( $match, 0, +5 );
 
-	    if ( $issue != '' && count( $issue ) <= 5 ) {
+	    if ( $issue != '' && count( $issue ) <= 5 && is_numeric( $issue ) ) {
                // eZDebug::writeDebug( "wrap_operator: getIssueFromPubSVNCommitMessage, results: " . print_r( $issue, TRUE) );
  	       $ret = $issue;
 	    }
